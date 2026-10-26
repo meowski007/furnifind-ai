@@ -37,7 +37,7 @@ htmlcov/
 .cache/
 *.faiss
 *.index
-models/
+/models/
 
 # Environment & Secrets
 .env
