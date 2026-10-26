@@ -1,0 +1,86 @@
+[
+  {
+    "query_id": "Q01",
+    "query": "Scandinavian light oak study desk with drawers",
+    "query_type": "exact_and_attribute",
+    "relevant_product_ids": ["FUR-DSK-001", "FUR-DSK-002"],
+    "description": "Tests combination of style (Scandinavian), material (oak), category (desk), and features (drawers)."
+  },
+  {
+    "query_id": "Q02",
+    "query": "industrial desk under 15000",
+    "query_type": "price_and_style_constraint",
+    "relevant_product_ids": ["FUR-DSK-003"],
+    "description": "Tests style (industrial) and hard budget constraint (price <= 15000)."
+  },
+  {
+    "query_id": "Q03",
+    "query": "minimalist writing workstation for home office",
+    "query_type": "synonym_and_semantic",
+    "relevant_product_ids": ["FUR-DSK-002", "FUR-DSK-001", "FUR-DSK-004"],
+    "description": "Tests synonym matching ('workstation' -> desk, 'writing' -> study desk)."
+  },
+  {
+    "query_id": "Q04",
+    "query": "emerald green velvet seating",
+    "query_type": "colour_material_synonym",
+    "relevant_product_ids": ["FUR-CHR-005"],
+    "description": "Tests colour (emerald green), material (velvet), and broad category term ('seating' -> chairs)."
+  },
+  {
+    "query_id": "Q05",
+    "query": "ergonomic swivel chair with lumbar support",
+    "query_type": "feature_search",
+    "relevant_product_ids": ["FUR-CHR-001"],
+    "description": "Tests specific ergonomic features in chairs."
+  },
+  {
+    "query_id": "Q06",
+    "query": "luxury leather couch for living room",
+    "query_type": "synonym_and_style",
+    "relevant_product_ids": ["FUR-SOF-003", "FUR-SOF-002"],
+    "description": "Tests synonym 'couch' -> sofa, material 'leather'."
+  },
+  {
+    "query_id": "Q07",
+    "query": "round wooden dining table width under 120 cm",
+    "query_type": "dimension_and_shape_constraint",
+    "relevant_product_ids": ["FUR-TAB-001"],
+    "description": "Tests shape (round), category (dining table), material (wood/oak), and max width constraint (< 120 cm)."
+  },
+  {
+    "query_id": "Q08",
+    "query": "white marble coffee table",
+    "query_type": "material_and_category",
+    "relevant_product_ids": ["FUR-TAB-002"],
+    "description": "Tests exact material (Carrara marble) and colour (white)."
+  },
+  {
+    "query_id": "Q09",
+    "query": "open ladder bookshelf in light wood",
+    "query_type": "style_and_material",
+    "relevant_product_ids": ["FUR-BOK-001"],
+    "description": "Tests bookcase structure ('ladder') and material ('ash / light wood')."
+  },
+  {
+    "query_id": "Q10",
+    "query": "standing desk height adjustable",
+    "query_type": "functional_attribute",
+    "relevant_product_ids": ["FUR-DSK-005"],
+    "description": "Tests standing desk query with functional motorized height adjustment."
+  },
+  {
+    "query_id": "Q11",
+    "query": "boho rattan furniture with storage",
+    "query_type": "style_and_feature",
+    "relevant_product_ids": ["FUR-STR-003", "FUR-CHR-004"],
+    "description": "Tests style (boho), material (rattan), and storage capability."
+  },
+  {
+    "query_id": "Q12",
+    "query": "neon pink inflatable pool lounger with solar heater",
+    "query_type": "no_matching_product",
+    "relevant_product_ids": [],
+    "description": "Negative control test: ensures system handles out-of-catalogue queries gracefully with empty or zero-relevance results."
+  }
+]

@@ -1,0 +1,1 @@
+# FurniFind AI Test Suite
