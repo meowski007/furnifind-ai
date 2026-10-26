@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import text
@@ -20,7 +20,7 @@ def health_check(db: Session = Depends(get_db)):
 
     return {
         "status": "healthy" if db_ok else "degraded",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "app_name": settings.APP_NAME,
         "environment": settings.APP_ENV,
         "database_connected": db_ok,

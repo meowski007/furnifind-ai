@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -22,9 +22,7 @@ def run_evaluation(
     queries_path: Path | None = None, output_path: Path | None = None
 ) -> dict[str, Any]:
     q_file = Path(queries_path or settings.EVALUATION_QUERIES_PATH)
-    out_file = Path(
-        output_path or (settings.INDEX_CACHE_DIR / "evaluation_results.json")
-    )
+    out_file = Path(output_path or (settings.INDEX_CACHE_DIR / "evaluation_results.json"))
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     if not q_file.exists():
@@ -104,7 +102,7 @@ def run_evaluation(
         }
 
     results_payload = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "total_queries": len(queries_data),
         "total_catalogue_products": len(products),
         "method_comparison": per_mode_metrics,

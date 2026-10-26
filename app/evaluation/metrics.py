@@ -1,9 +1,7 @@
 import math
 
 
-def precision_at_k(
-    retrieved_ids: list[str], relevant_ids: set[str], k: int = 5
-) -> float:
+def precision_at_k(retrieved_ids: list[str], relevant_ids: set[str], k: int = 5) -> float:
     if k <= 0:
         return 0.0
     if len(relevant_ids) == 0:

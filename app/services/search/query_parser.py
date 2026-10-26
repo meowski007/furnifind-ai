@@ -119,9 +119,7 @@ class QueryParser:
             m = re.search(pattern, q)
             if m:
                 extracted.max_width_cm = float(m.group(1))
-                residual_tokens = re.sub(
-                    pattern, " ", residual_tokens, flags=re.IGNORECASE
-                )
+                residual_tokens = re.sub(pattern, " ", residual_tokens, flags=re.IGNORECASE)
                 # Also update q so price patterns don't re-match the same number
                 q = re.sub(pattern, " ", q)
                 break
@@ -140,9 +138,7 @@ class QueryParser:
                 else:
                     max_p = float(val_str)
                 extracted.max_price = max_p
-                residual_tokens = re.sub(
-                    pattern, " ", residual_tokens, flags=re.IGNORECASE
-                )
+                residual_tokens = re.sub(pattern, " ", residual_tokens, flags=re.IGNORECASE)
                 q = re.sub(pattern, " ", q)
                 break
 
@@ -159,9 +155,7 @@ class QueryParser:
                 else:
                     min_p = float(val_str)
                 extracted.min_price = min_p
-                residual_tokens = re.sub(
-                    pattern, " ", residual_tokens, flags=re.IGNORECASE
-                )
+                residual_tokens = re.sub(pattern, " ", residual_tokens, flags=re.IGNORECASE)
                 q = re.sub(pattern, " ", q)
                 break
 

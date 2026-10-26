@@ -14,8 +14,6 @@ def ask_assistant(req: AssistantAskRequest, db: Session = Depends(get_db)):
         registry.initialize(db)
 
     if not registry.assistant:
-        raise HTTPException(
-            status_code=503, detail="Assistant engine is not initialized."
-        )
+        raise HTTPException(status_code=503, detail="Assistant engine is not initialized.")
 
     return registry.assistant.answer_question(req)

@@ -37,15 +37,11 @@ async def search_by_image(file: UploadFile = File(...), db: Session = Depends(ge
         registry.initialize(db)
 
     if not registry.image_engine:
-        raise HTTPException(
-            status_code=503, detail="Image search engine is not initialized."
-        )
+        raise HTTPException(status_code=503, detail="Image search engine is not initialized.")
 
     try:
         content_bytes = await file.read()
-        pil_image = registry.image_engine.validate_upload(
-            content_bytes, filename=file.filename
-        )
+        pil_image = registry.image_engine.validate_upload(content_bytes, filename=file.filename)
         matches = registry.image_engine.search_by_image(pil_image, top_k=6)
 
         results = []

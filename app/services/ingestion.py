@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +18,7 @@ class IngestionReport:
         self.invalid_rows: list[dict[str, Any]] = []
         self.errors: list[str] = []
         self.categories_found: dict[str, int] = {}
-        self.started_at: str = datetime.utcnow().isoformat()
+        self.started_at: str = datetime.now(timezone.utc).isoformat()
         self.finished_at: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -99,13 +99,11 @@ class IngestionPipeline:
         }
         return normalized, None
 
-    def ingest_file(
-        self, file_path: Path, force_reload: bool = False
-    ) -> IngestionReport:
+    def ingest_file(self, file_path: Path, force_reload: bool = False) -> IngestionReport:
         report = IngestionReport()
         if not file_path.exists():
             report.errors.append(f"Catalogue file not found: {file_path}")
-            report.finished_at = datetime.utcnow().isoformat()
+            report.finished_at = datetime.now(timezone.utc).isoformat()
             return report
 
         try:
@@ -113,12 +111,12 @@ class IngestionPipeline:
                 data = json.load(f)
         except Exception as e:
             report.errors.append(f"JSON parsing error in {file_path}: {e!s}")
-            report.finished_at = datetime.utcnow().isoformat()
+            report.finished_at = datetime.now(timezone.utc).isoformat()
             return report
 
         if not isinstance(data, list):
             report.errors.append(f"Expected list of products in JSON, got {type(data)}")
-            report.finished_at = datetime.utcnow().isoformat()
+            report.finished_at = datetime.now(timezone.utc).isoformat()
             return report
 
         report.total_rows_read = len(data)
@@ -186,5 +184,5 @@ class IngestionPipeline:
         else:
             logger.info("No new products to add (all existed or invalid)")
 
-        report.finished_at = datetime.utcnow().isoformat()
+        report.finished_at = datetime.now(timezone.utc).isoformat()
         return report

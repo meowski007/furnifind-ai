@@ -14,8 +14,6 @@ def get_recommendations(req: RecommendationRequest, db: Session = Depends(get_db
         registry.initialize(db)
 
     if not registry.recommender:
-        raise HTTPException(
-            status_code=503, detail="Recommendation engine is not initialized."
-        )
+        raise HTTPException(status_code=503, detail="Recommendation engine is not initialized.")
 
     return registry.recommender.recommend(req)

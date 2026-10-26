@@ -26,9 +26,7 @@ def test_hybrid_search_hard_constraint_budget(db_session):
     hybrid_engine = HybridSearchEngine(kw_engine, sem_engine)
 
     # Budget strictly capped at 12000
-    req = SearchRequest(
-        query="industrial desk under 12000", search_mode="hybrid", top_k=5
-    )
+    req = SearchRequest(query="industrial desk under 12000", search_mode="hybrid", top_k=5)
     resp = hybrid_engine.search(req)
 
     assert resp.total_matches > 0
@@ -47,9 +45,7 @@ def test_hybrid_search_hard_constraint_width(db_session):
     hybrid_engine = HybridSearchEngine(kw_engine, sem_engine)
 
     # Request width below 110 cm
-    req = SearchRequest(
-        query="study desk width below 110 cm", search_mode="hybrid", top_k=5
-    )
+    req = SearchRequest(query="study desk width below 110 cm", search_mode="hybrid", top_k=5)
     resp = hybrid_engine.search(req)
 
     assert resp.total_matches > 0

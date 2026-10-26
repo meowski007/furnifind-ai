@@ -27,9 +27,7 @@ class EngineRegistry:
         logger.info("Initializing FurniFind AI Engine Registry...")
         self.products = db.query(Product).all()
         if not self.products:
-            logger.warning(
-                "No products found in database during engine registry initialization."
-            )
+            logger.warning("No products found in database during engine registry initialization.")
             return
 
         # 1. Keyword search engine
@@ -41,9 +39,7 @@ class EngineRegistry:
         self.semantic_engine.fit(self.products, force_refresh=force_refresh)
 
         # 3. Hybrid search engine
-        self.hybrid_engine = HybridSearchEngine(
-            self.keyword_engine, self.semantic_engine
-        )
+        self.hybrid_engine = HybridSearchEngine(self.keyword_engine, self.semantic_engine)
 
         # 4. Multimodal image search engine
         self.image_engine = MultimodalImageSearchEngine()
@@ -56,9 +52,7 @@ class EngineRegistry:
         self.assistant = AssistantRAGEngine(self.products, self.hybrid_engine)
 
         self.is_initialized = True
-        logger.info(
-            f"Engine Registry successfully initialized with {len(self.products)} products."
-        )
+        logger.info(f"Engine Registry successfully initialized with {len(self.products)} products.")
 
 
 registry = EngineRegistry()

@@ -62,12 +62,7 @@ class BM25SearchEngine:
             col_tokens = tokenize(p.colour or "") * 2
 
             all_tokens = (
-                title_tokens
-                + desc_tokens
-                + cat_tokens
-                + mat_tokens
-                + style_tokens
-                + col_tokens
+                title_tokens + desc_tokens + cat_tokens + mat_tokens + style_tokens + col_tokens
             )
             self.doc_tokens.append(all_tokens)
             self.doc_lens.append(len(all_tokens))
@@ -85,9 +80,7 @@ class BM25SearchEngine:
             # Standard Lucene/BM25 IDF formula
             self.idf[term] = math.log(1.0 + (self.n_docs - freq + 0.5) / (freq + 0.5))
 
-    def search(
-        self, query: str, top_k: int = 20
-    ) -> list[tuple[Product, float, list[str]]]:
+    def search(self, query: str, top_k: int = 20) -> list[tuple[Product, float, list[str]]]:
         if not self.products or not query:
             return []
 
@@ -113,9 +106,7 @@ class BM25SearchEngine:
                     idf_val = self.idf.get(q_term, 0.5)
                     # BM25 term score
                     numerator = tf * (self.k1 + 1.0)
-                    denominator = tf + self.k1 * (
-                        1.0 - self.b + self.b * (doc_len / self.avg_dl)
-                    )
+                    denominator = tf + self.k1 * (1.0 - self.b + self.b * (doc_len / self.avg_dl))
                     term_score = idf_val * (numerator / denominator)
                     score += term_score
                     matched_terms.append(q_term)

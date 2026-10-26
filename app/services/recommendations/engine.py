@@ -106,23 +106,17 @@ class ContentBasedRecommender:
             if p.style and p.style.lower() in style_affinities:
                 st_weight = min(0.25, 0.12 + 0.04 * style_affinities[p.style.lower()])
                 score += st_weight
-                reasons.append(
-                    f"Consistent with your affinity for {p.style} aesthetics"
-                )
+                reasons.append(f"Consistent with your affinity for {p.style} aesthetics")
 
             # Material score (max 0.20)
             if p.material and p.material.lower() in material_affinities:
-                mat_weight = min(
-                    0.20, 0.10 + 0.03 * material_affinities[p.material.lower()]
-                )
+                mat_weight = min(0.20, 0.10 + 0.03 * material_affinities[p.material.lower()])
                 score += mat_weight
                 reasons.append(f"Features {p.material} material")
 
             # Colour score (max 0.15)
             if p.colour and p.colour.lower() in colour_affinities:
-                col_weight = min(
-                    0.15, 0.08 + 0.02 * colour_affinities[p.colour.lower()]
-                )
+                col_weight = min(0.15, 0.08 + 0.02 * colour_affinities[p.colour.lower()])
                 score += col_weight
                 reasons.append(f"Matches your preference for {p.colour}")
 
@@ -143,9 +137,7 @@ class ContentBasedRecommender:
 
             if score > 0.10:
                 explanation = (
-                    "; ".join(reasons)
-                    if reasons
-                    else "Selected based on catalogue popularity"
+                    "; ".join(reasons) if reasons else "Selected based on catalogue popularity"
                 )
                 candidates.append(
                     RecommendationItem(
@@ -191,9 +183,7 @@ class ContentBasedRecommender:
             strategy_summary=f"Personalized content-based filtering derived from {len(saved_ids)} saved items, {len(viewed_ids)} viewed items, and stated preferences.",
         )
 
-    def _cold_start_recommendations(
-        self, req: RecommendationRequest
-    ) -> RecommendationResponse:
+    def _cold_start_recommendations(self, req: RecommendationRequest) -> RecommendationResponse:
         """Cold-start strategy: curate high-rated, highly diverse anchor products across distinct categories."""
         # Pick 1 representative item from each distinct category
         seen_cats = set()
@@ -213,11 +203,7 @@ class ContentBasedRecommender:
 
         for target_cat in showcase_order:
             for p in self.products:
-                if (
-                    p.category == target_cat
-                    and p.product_id not in seen_cats
-                    and p.availability
-                ):
+                if p.category == target_cat and p.product_id not in seen_cats and p.availability:
                     seen_cats.add(p.product_id)
                     picked.append(
                         RecommendationItem(

@@ -22,17 +22,13 @@ def get_search_evaluation():
         try:
             data = run_evaluation()
         except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"Failed to generate evaluation: {e!s}"
-            )
+            raise HTTPException(status_code=500, detail=f"Failed to generate evaluation: {e!s}")
     else:
         try:
             with open(cache_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"Failed to read evaluation results: {e!s}"
-            )
+            raise HTTPException(status_code=500, detail=f"Failed to read evaluation results: {e!s}")
 
     comp = data["method_comparison"]
     comparison = MethodComparison(

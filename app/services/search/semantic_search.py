@@ -12,9 +12,7 @@ from app.models.product import Product
 class SemanticSearchEngine:
     """Pretrained sentence embedding retriever with caching and graceful offline fallback."""
 
-    def __init__(
-        self, model_name: str = "all-MiniLM-L6-v2", cache_dir: Path | None = None
-    ):
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2", cache_dir: Path | None = None):
         self.model_name = model_name
         self.cache_dir = cache_dir or settings.INDEX_CACHE_DIR
         self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -27,8 +25,7 @@ class SemanticSearchEngine:
 
     def _get_catalogue_hash(self, products: list[Product]) -> str:
         s = "".join(
-            f"{p.product_id}_{p.title}_{p.category}_{p.material}_{p.style}"
-            for p in products
+            f"{p.product_id}_{p.title}_{p.category}_{p.material}_{p.style}" for p in products
         )
         return hashlib.md5(s.encode("utf-8")).hexdigest()
 
@@ -41,9 +38,7 @@ class SemanticSearchEngine:
 
             # Try loading cached local files first to avoid network timeout
             try:
-                self._model = SentenceTransformer(
-                    self.model_name, local_files_only=True
-                )
+                self._model = SentenceTransformer(self.model_name, local_files_only=True)
                 self._is_transformer = True
                 logger.info(f"Loaded local SentenceTransformer: {self.model_name}")
                 return
@@ -60,9 +55,7 @@ class SemanticSearchEngine:
             )
             from sklearn.feature_extraction.text import TfidfVectorizer
 
-            self._tfidf_fallback = TfidfVectorizer(
-                ngram_range=(1, 2), max_features=1000
-            )
+            self._tfidf_fallback = TfidfVectorizer(ngram_range=(1, 2), max_features=1000)
             self._is_transformer = False
 
     def fit(self, products: list[Product], force_refresh: bool = False):
@@ -81,9 +74,7 @@ class SemanticSearchEngine:
         if not force_refresh and emb_file.exists() and meta_file.exists():
             try:
                 self.embeddings = np.load(emb_file)
-                logger.info(
-                    f"Loaded {len(self.embeddings)} cached text embeddings from {emb_file}"
-                )
+                logger.info(f"Loaded {len(self.embeddings)} cached text embeddings from {emb_file}")
                 return
             except Exception as e:
                 logger.warning(f"Failed loading cached embeddings: {e}, recalculating.")
@@ -105,17 +96,13 @@ class SemanticSearchEngine:
             texts.append(full_text)
 
         if self._is_transformer and self._model is not None:
-            raw_embs = self._model.encode(
-                texts, show_progress_bar=False, normalize_embeddings=True
-            )
+            raw_embs = self._model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
             self.embeddings = np.array(raw_embs, dtype=np.float32)
         else:
             if self._tfidf_fallback is None:
                 from sklearn.feature_extraction.text import TfidfVectorizer
 
-                self._tfidf_fallback = TfidfVectorizer(
-                    ngram_range=(1, 2), max_features=1000
-                )
+                self._tfidf_fallback = TfidfVectorizer(ngram_range=(1, 2), max_features=1000)
             sparse_matrix = self._tfidf_fallback.fit_transform(texts)
             self.embeddings = sparse_matrix.toarray().astype(np.float32)
             # L2 normalize
@@ -127,9 +114,7 @@ class SemanticSearchEngine:
             np.save(emb_file, self.embeddings)
             with open(meta_file, "w", encoding="utf-8") as f:
                 json.dump({"catalogue_hash": cat_hash, "count": len(products)}, f)
-            logger.info(
-                f"Saved {len(self.embeddings)} embeddings to cache at {emb_file}"
-            )
+            logger.info(f"Saved {len(self.embeddings)} embeddings to cache at {emb_file}")
         except Exception as e:
             logger.warning(f"Failed to persist embeddings cache: {e}")
 
@@ -140,9 +125,9 @@ class SemanticSearchEngine:
         self._init_model()
 
         if self._is_transformer and self._model is not None:
-            q_emb = self._model.encode(
-                [query], show_progress_bar=False, normalize_embeddings=True
-            )[0]
+            q_emb = self._model.encode([query], show_progress_bar=False, normalize_embeddings=True)[
+                0
+            ]
         else:
             sparse_q = self._tfidf_fallback.transform([query])
             q_emb = sparse_q.toarray().astype(np.float32)[0]

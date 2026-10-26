@@ -27,9 +27,7 @@ def run_ingestion(file_path: Path, force: bool):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Ingest furniture catalogue into FurniFind AI"
-    )
+    parser = argparse.ArgumentParser(description="Ingest furniture catalogue into FurniFind AI")
     parser.add_argument(
         "--file",
         type=str,

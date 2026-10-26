@@ -27,22 +27,17 @@ class AssistantGuardrails:
         return cleaned, False
 
     @classmethod
-    def verify_grounded_claims(
-        cls, answer: str, catalogue_facts: list[dict[str, Any]]
-    ) -> bool:
+    def verify_grounded_claims(cls, answer: str, catalogue_facts: list[dict[str, Any]]) -> bool:
         """Ensure stated numerical numbers (prices, widths) correlate with verified catalogue facts."""
         # Check that extracted INR numbers in the response match actual prices in catalogue
-        mentioned_numbers = re.findall(
-            r"(?:₹|rs\.?|inr)?\s*([0-9]{3,7})", answer.lower()
-        )
+        mentioned_numbers = re.findall(r"(?:₹|rs\.?|inr)?\s*([0-9]{3,7})", answer.lower())
         if not mentioned_numbers:
             return True
 
         valid_prices = {
             int(f["value"])
             for f in catalogue_facts
-            if f.get("attribute") == "price"
-            and isinstance(f.get("value"), (int, float))
+            if f.get("attribute") == "price" and isinstance(f.get("value"), (int, float))
         }
         valid_dimensions = {
             int(f["value"])

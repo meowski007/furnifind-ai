@@ -24,9 +24,7 @@ class AssistantRAGEngine:
         raw_question = req.question.strip()
 
         # 1. Guardrails check
-        sanitized_q, is_suspicious = AssistantGuardrails.sanitize_and_check_injection(
-            raw_question
-        )
+        sanitized_q, is_suspicious = AssistantGuardrails.sanitize_and_check_injection(raw_question)
         if is_suspicious:
             return AssistantAskResponse(
                 question=raw_question,
@@ -94,9 +92,7 @@ class AssistantRAGEngine:
             return superlative_match
 
         # Type B: Specific Product by ID or Title inquiry
-        direct_product_match = self._handle_specific_product_query(
-            q_lower, raw_question
-        )
+        direct_product_match = self._handle_specific_product_query(q_lower, raw_question)
         if direct_product_match:
             return direct_product_match
 
@@ -111,15 +107,11 @@ class AssistantRAGEngine:
 
         # Attribute to compare
         is_narrowest = (
-            "narrowest" in q_lower
-            or "smallest width" in q_lower
-            or "least wide" in q_lower
+            "narrowest" in q_lower or "smallest width" in q_lower or "least wide" in q_lower
         )
         is_widest = "widest" in q_lower or "largest width" in q_lower
         is_cheapest = (
-            "cheapest" in q_lower
-            or "lowest price" in q_lower
-            or "least expensive" in q_lower
+            "cheapest" in q_lower or "lowest price" in q_lower or "least expensive" in q_lower
         )
         is_most_expensive = "most expensive" in q_lower or "highest price" in q_lower
 
@@ -132,21 +124,15 @@ class AssistantRAGEngine:
             candidates = [p for p in candidates if p.category == target_cat]
 
         if extracted_filters.max_price is not None:
-            candidates = [
-                p for p in candidates if p.price <= extracted_filters.max_price
-            ]
+            candidates = [p for p in candidates if p.price <= extracted_filters.max_price]
 
         if extracted_filters.min_price is not None:
-            candidates = [
-                p for p in candidates if p.price >= extracted_filters.min_price
-            ]
+            candidates = [p for p in candidates if p.price >= extracted_filters.min_price]
 
         if not candidates:
             cat_label = f"in category '{target_cat}'" if target_cat else ""
             budget_label = (
-                f"under ₹{extracted_filters.max_price:,.0f}"
-                if extracted_filters.max_price
-                else ""
+                f"under ₹{extracted_filters.max_price:,.0f}" if extracted_filters.max_price else ""
             )
             return AssistantAskResponse(
                 question=raw_question,

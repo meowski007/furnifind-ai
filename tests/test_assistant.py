@@ -20,9 +20,7 @@ def assistant_engine(db_session):
 
 
 def test_assistant_superlative_narrowest_desk(assistant_engine):
-    req = AssistantAskRequest(
-        question="Which desk is the narrowest and costs less than ₹15,000?"
-    )
+    req = AssistantAskRequest(question="Which desk is the narrowest and costs less than ₹15,000?")
     resp = assistant_engine.answer_question(req)
 
     assert resp.grounded is True
@@ -61,9 +59,7 @@ def test_assistant_off_topic_question(assistant_engine):
 
 def test_assistant_missing_attribute_handling(assistant_engine):
     # FUR-MIS-001 has no dimensions recorded
-    req = AssistantAskRequest(
-        question="What are the dimensions and material of FUR-MIS-001?"
-    )
+    req = AssistantAskRequest(question="What are the dimensions and material of FUR-MIS-001?")
     resp = assistant_engine.answer_question(req)
 
     assert resp.grounded is True

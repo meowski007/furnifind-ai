@@ -85,7 +85,5 @@ def get_product(product_id: str, db: Session = Depends(get_db)):
         select(Product).where(Product.product_id == product_id.upper())
     ).scalar_one_or_none()
     if not product:
-        raise HTTPException(
-            status_code=404, detail=f"Product with ID '{product_id}' not found."
-        )
+        raise HTTPException(status_code=404, detail=f"Product with ID '{product_id}' not found.")
     return ProductResponse.model_validate(product)

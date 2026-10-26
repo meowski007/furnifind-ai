@@ -15,9 +15,7 @@ from app.services.search.semantic_search import SemanticSearchEngine
 
 
 class HybridSearchEngine:
-    def __init__(
-        self, keyword_engine: BM25SearchEngine, semantic_engine: SemanticSearchEngine
-    ):
+    def __init__(self, keyword_engine: BM25SearchEngine, semantic_engine: SemanticSearchEngine):
         self.keyword_engine = keyword_engine
         self.semantic_engine = semantic_engine
 
@@ -85,9 +83,7 @@ class HybridSearchEngine:
         elif extracted.material:
             req_mat = extracted.material.lower()
 
-        if req_mat and (
-            not product.material or req_mat not in product.material.lower()
-        ):
+        if req_mat and (not product.material or req_mat not in product.material.lower()):
             return False
 
         # Colour constraint
@@ -101,11 +97,7 @@ class HybridSearchEngine:
             return False
 
         # Availability constraint
-        if (
-            manual_filters
-            and manual_filters.availability is True
-            and not product.availability
-        ):
+        if manual_filters and manual_filters.availability is True and not product.availability:
             return False
 
         return True
@@ -125,9 +117,7 @@ class HybridSearchEngine:
             reasons.append(f"Matches category '{product.category}'")
 
         if extracted.max_price and product.price <= extracted.max_price:
-            reasons.append(
-                f"Within budget (₹{product.price:,.0f} <= ₹{extracted.max_price:,.0f})"
-            )
+            reasons.append(f"Within budget (₹{product.price:,.0f} <= ₹{extracted.max_price:,.0f})")
 
         if (
             extracted.max_width_cm
@@ -145,18 +135,10 @@ class HybridSearchEngine:
         ):
             reasons.append(f"Crafted from {product.material}")
 
-        if (
-            extracted.style
-            and product.style
-            and extracted.style in product.style.lower()
-        ):
+        if extracted.style and product.style and extracted.style in product.style.lower():
             reasons.append(f"{product.style.capitalize()} aesthetic")
 
-        if (
-            extracted.colour
-            and product.colour
-            and extracted.colour in product.colour.lower()
-        ):
+        if extracted.colour and product.colour and extracted.colour in product.colour.lower():
             reasons.append(f"{product.colour.capitalize()} finish")
 
         if matched_terms:

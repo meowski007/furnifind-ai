@@ -22,9 +22,7 @@ class ImageValidationError(ValueError):
 class MultimodalImageSearchEngine:
     """Production-grade visual similarity engine with CLIP and CV feature fallback."""
 
-    def __init__(
-        self, model_name: str = "clip-ViT-B-32", cache_dir: Path | None = None
-    ):
+    def __init__(self, model_name: str = "clip-ViT-B-32", cache_dir: Path | None = None):
         self.model_name = model_name
         self.cache_dir = cache_dir or settings.INDEX_CACHE_DIR
         self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -42,11 +40,7 @@ class MultimodalImageSearchEngine:
         self._clip_attempted = True
 
         cache_path = (
-            Path.home()
-            / ".cache"
-            / "huggingface"
-            / "hub"
-            / "models--openai--clip-vit-base-patch32"
+            Path.home() / ".cache" / "huggingface" / "hub" / "models--openai--clip-vit-base-patch32"
         )
         if cache_path.exists():
             try:
@@ -56,9 +50,7 @@ class MultimodalImageSearchEngine:
                 self._clip_processor = CLIPProcessor.from_pretrained(
                     model_id, local_files_only=True
                 )
-                self._clip_model = CLIPModel.from_pretrained(
-                    model_id, local_files_only=True
-                )
+                self._clip_model = CLIPModel.from_pretrained(model_id, local_files_only=True)
                 self._encoder_type = "clip-vit-base-patch32"
                 logger.info("Local CLIP vision model loaded successfully.")
                 return
@@ -161,18 +153,14 @@ class MultimodalImageSearchEngine:
                 np.save(emb_file, self.image_embeddings)
                 with open(idx_file, "w") as f:
                     json.dump(valid_indices, f)
-                logger.info(
-                    f"Saved {len(self.image_embeddings)} image embeddings to {emb_file}"
-                )
+                logger.info(f"Saved {len(self.image_embeddings)} image embeddings to {emb_file}")
             except Exception as e:
                 logger.warning(f"Failed writing image cache: {e}")
         else:
             self.image_embeddings = None
             self.valid_product_indices = []
 
-    def validate_upload(
-        self, content_bytes: bytes, filename: str | None = None
-    ) -> Image.Image:
+    def validate_upload(self, content_bytes: bytes, filename: str | None = None) -> Image.Image:
         if not content_bytes or len(content_bytes) == 0:
             raise ImageValidationError("Uploaded image file is empty.")
 
@@ -210,9 +198,7 @@ class MultimodalImageSearchEngine:
 
         return img
 
-    def search_by_image(
-        self, img: Image.Image, top_k: int = 6
-    ) -> list[tuple[Product, float]]:
+    def search_by_image(self, img: Image.Image, top_k: int = 6) -> list[tuple[Product, float]]:
         if self.image_embeddings is None or len(self.image_embeddings) == 0:
             return []
 
