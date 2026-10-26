@@ -10,6 +10,8 @@ jobs:
   backend-quality-and-test:
     name: Backend Lint, Test & Evaluation
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
 
     steps:
       - name: Checkout Code
