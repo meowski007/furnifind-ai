@@ -1,6 +1,6 @@
 # FurniFind AI — Multimodal Furniture Search & Recommendation Engine
 
-[![CI Pipeline](https://github.com/wayfair-portfolio/furnifind-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/wayfair-portfolio/furnifind-ai/actions)
+[![CI Pipeline](https://github.com/meowski007/furnifind-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/meowski007/furnifind-ai/actions)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.2-61DAFB.svg)](https://reactjs.org/)
@@ -155,7 +155,7 @@ furnifind-ai/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/wayfair-portfolio/furnifind-ai.git
+   git clone https://github.com/meowski007/furnifind-ai.git
    cd furnifind-ai
    ```
 
